@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TargetAI Academy | Оқу платформасы</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2563EB;
+      --primary-light: #3B82F6;
+      --primary-dark: #1D4ED8;
+      --secondary: #0EA5E9;
+      --accent: #8B5CF6;
+      --light: #F9FAFB;
+      --dark: #1F2937;
+      --gray: #6B7280;
+      --light-gray: #E5E7EB;
+      --success: #10B981;
+      --error: #EF4444;
+      --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      --card-hover-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+      --border-radius: 12px;
+      --gradient-primary: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      --gradient-secondary: linear-gradient(135deg, var(--secondary), #0284C7);
+      --gradient-accent: linear-gradient(135deg, var(--accent), #7C3AED);
+      --gradient-dark: linear-gradient(135deg, #374151, #1F2937);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; }
+    @font-face { font-family:'Inter'; font-style:normal; font-weight:300 800; src:url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap'); }
+    body { background:var(--light); color:var(--dark); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; overflow-x:hidden; }
+    html { scroll-behavior:smooth; }
+    .container { width:100%; max-width:1280px; margin:0 auto; padding:0 24px; }
+    .grid { display:grid; gap:24px; margin-bottom:60px; }
+    .modules-grid { grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); }
+    .section-title { text-align:center; margin-bottom:48px; padding:0 20px; }
+    .section-title h2 { font-size:2.4rem; font-weight:700; color:var(--dark); margin-bottom:16px; }
+    .section-title p { font-size:1.1rem; color:var(--gray); max-width:700px; margin:0 auto; font-weight:400; }
+    .btn { display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:12px 24px; border:none; border-radius:8px; cursor:pointer; font-weight:500; font-size:1rem; text-decoration:none; transition:var(--transition); white-space:nowrap; position:relative; overflow:hidden; }
+    .btn:hover { transform:translateY(-2px); box-shadow:var(--card-hover-shadow); }
+    .btn-primary { background:var(--gradient-primary); color:#fff; }
+    .btn-outline { background:transparent; border:1.5px solid var(--primary); color:var(--primary); }
+    .btn-outline:hover { background:rgba(37, 99, 235, 0.05); }
+    .btn-secondary { background:var(--gradient-secondary); color:#fff; }
+    .btn-accent { background:var(--gradient-accent); color:#fff; }
+    header { background:#fff; color:var(--dark); padding:1rem 0; position:sticky; top:0; z-index:1000; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
+    .navbar { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; }
+    .logo { font-size:1.5rem; font-weight:700; display:flex; align-items:center; gap:12px; color:var(--dark); text-decoration:none; }
+    .logo i { background:var(--gradient-primary); color:#fff; width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; }
+    .nav-links { display:flex; list-style:none; gap:1.5rem; }
+    .nav-links a { color:var(--dark); text-decoration:none; padding:6px 12px; border-radius:6px; transition:var(--transition); font-weight:500; font-size:1rem; position:relative; }
+    .nav-links a:hover, .nav-links a.active { color:var(--primary); }
+    .user-actions { display:flex; gap:12px; margin-left:auto; }
+    .user-info { display:flex; align-items:center; gap:10px; color:var(--dark); font-weight:500; padding:8px 16px; border-radius:8px; background:rgba(37, 99, 235, 0.05); transition:var(--transition); }
+    .user-info:hover { background:rgba(37, 99, 235, 0.1); }
+    .user-info i { background:var(--secondary); width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; }
+    .hero { padding:120px 0 80px; text-align:center; color:var(--dark); margin-bottom:60px; background:linear-gradient(135deg,#F0F4FF 0%,#EFF6FF 100%); }
+    .hero-content { position:relative; z-index:2; max-width:800px; margin:0 auto; padding:0 20px; }
+    .hero h1 { font-size:2.8rem; margin-bottom:1.5rem; line-height:1.2; font-weight:700; color:var(--primary-dark); }
+    .hero p { font-size:1.2rem; max-width:600px; margin:0 auto 32px; color:var(--gray); font-weight:400; }
+    .card { background:#fff; border-radius:var(--border-radius); overflow:hidden; box-shadow:var(--card-shadow); transition:var(--transition); display:flex; flex-direction:column; height:100%; position:relative; border:none; }
+    .card:hover { transform:translateY(-5px); box-shadow:var(--card-hover-shadow); }
+    .card::after { content:''; position:absolute; top:0; left:0; width:100%; height:4px; background:var(--gradient-primary); }
+    .card-image { height:200px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; background:#f8fafc; }
+    .card-image img { width:100%; height:100%; object-fit:cover; transition:transform 1s ease; }
+    .module-card:hover .card-image img { transform:scale(1.05); }
+    .card-content { padding:24px; flex-grow:1; display:flex; flex-direction:column; }
+    .card-content h3 { color:var(--primary-dark); margin-bottom:16px; font-size:1.3rem; font-weight:600; }
+    .card-content p { color:var(--gray); margin-bottom:20px; flex-grow:1; line-height:1.6; font-size:1rem; }
+    footer { background:var(--gradient-dark); color:#fff; padding:60px 0 24px; margin-top:auto; position:relative; overflow:hidden; }
+    .footer-content { position:relative; z-index:2; display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:40px; }
+    .footer-column h3 { position:relative; padding-bottom:16px; margin-bottom:24px; font-size:1.3rem; font-weight:600; }
+    .footer-column h3::after { content:''; position:absolute; bottom:0; left:0; width:40px; height:3px; background:var(--secondary); border-radius:2px; }
+    .footer-links { list-style:none; }
+    .footer-links li { margin-bottom:12px; }
+    .footer-links a { color:rgba(255,255,255,0.85); text-decoration:none; transition:var(--transition); display:flex; align-items:center; gap:10px; font-size:1rem; }
+    .footer-links a:hover { color:#fff; }
+    .footer-links i { width:22px; text-align:center; color:var(--secondary); }
+    .social-links { display:flex; gap:14px; margin-top:20px; }
+    .social-links a { width:38px; height:38px; background:rgba(255,255,255,0.1); border-radius:8px; display:flex; align-items:center; justify-content:center; transition:var(--transition); color:#fff; font-size:1.1rem; }
+    .social-links a:hover { background:var(--secondary); transform:translateY(-3px); }
+    .footer-bottom { position:relative; z-index:2; text-align:center; border-top:1px solid rgba(255,255,255,0.15); padding-top:24px; margin-top:50px; color:rgba(255,255,255,0.7); font-size:0.9rem; }
+    .loading { display:flex; flex-direction:column; justify-content:center; align-items:center; padding:80px 20px; grid-column:1 / -1; }
+    .spinner { width:60px; height:60px; border:6px solid rgba(37, 99, 235,0.1); border-top:6px solid var(--primary); border-radius:50%; animation:spin 1.2s linear infinite; margin-bottom:24px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .error-message { text-align:center; padding:50px 20px; color:var(--error); grid-column:1 / -1; }
+    .error-message i { font-size:3rem; margin-bottom:16px; color:var(--error); }
+    .modal { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); display:flex; align-items:center; justify-content:center; z-index:2000; opacity:0; visibility:hidden; transition:var(--transition); }
+    .modal.active { opacity:1; visibility:visible; }
+    .modal-content { background:#fff; border-radius:var(--border-radius); width:100%; max-width:440px; padding:40px; position:relative; transform:translateY(20px) scale(0.98); transition:transform .4s ease, opacity .4s ease; box-shadow:0 20px 40px rgba(0,0,0,0.2); }
+    .modal.active .modal-content { transform:translateY(0) scale(1); }
+    .modal-close { position:absolute; top:20px; right:20px; background:none; border:none; font-size:1.5rem; color:var(--gray); cursor:pointer; transition:var(--transition); width:36px; height:36px; display:flex; align-items:center; justify-content:center; border-radius:8px; }
+    .modal-close:hover { color:var(--error); background:rgba(239,68,68,0.1); }
+    .modal-title { text-align:center; margin-bottom:28px; color:var(--primary-dark); font-size:1.8rem; font-weight:600; }
+    .form-group { margin-bottom:20px; }
+    .form-group label { display:block; margin-bottom:10px; font-weight:500; color:var(--dark); font-size:1rem; }
+    .form-control { width:100%; padding:14px 16px; border:1px solid var(--light-gray); border-radius:8px; font-size:1rem; transition:var(--transition); background:#f8fafc; }
+    .form-control:focus { border-color:var(--primary); outline:none; box-shadow:0 0 0 3px rgba(37,99,235,0.1); background:#fff; }
+    .auth-form { display:none; } .auth-form.active { display:block; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(10px);} to { opacity:1; transform:translateY(0);} }
+    .fade-in { animation:fadeIn .5s ease forwards; opacity:0; }
+    .feature-card { background:#fff; border-radius:var(--border-radius); padding:28px; text-align:center; box-shadow:var(--card-shadow); transition:var(--transition); border:none; }
+    .feature-card:hover { transform:translateY(-5px); box-shadow:var(--card-hover-shadow); }
+    .feature-card i { font-size:3rem; margin-bottom:20px; color:var(--primary); }
+    .feature-card h3 { font-size:1.3rem; margin-bottom:12px; color:var(--primary-dark); }
+    .feature-card p { color:var(--gray); line-height:1.6; font-size:1rem; }
+    .lesson-number { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:var(--primary); color:#fff; width:70px; height:70px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:1.5rem; box-shadow:var(--card-shadow); z-index:2; }
+    .lesson-bg { background:linear-gradient(135deg, var(--primary-light), var(--primary)); }
+    .lesson-card .card-image { height:160px; }
+    .payment-page { padding:80px 0; min-height:80vh; display:flex; align-items:center; }
+    .payment-container { max-width:600px; margin:0 auto; background:#fff; border-radius:var(--border-radius); box-shadow:var(--card-shadow); overflow:hidden; padding:40px; text-align:center; }
+    .payment-header { margin-bottom:32px; }
+    .payment-icon { font-size:3.5rem; margin-bottom:20px; color:var(--primary); }
+    .payment-steps { display:flex; justify-content:center; gap:24px; margin:32px 0; position:relative; }
+    .payment-steps::before { content:''; position:absolute; top:20px; left:50%; width:70%; height:2px; background:var(--light-gray); transform:translateX(-50%); z-index:0; }
+    .step { display:flex; flex-direction:column; align-items:center; z-index:1; position:relative; }
+    .step-number { width:40px; height:40px; border-radius:50%; background:var(--light-gray); color:var(--gray); display:flex; align-items:center; justify-content:center; font-weight:600; font-size:1.1rem; margin-bottom:12px; transition:var(--transition); }
+    .step.active .step-number { background:var(--gradient-primary); color:#fff; }
+    .step-text { font-weight:500; color:var(--gray); font-size:0.9rem; }
+    .step.active .step-text { color:var(--dark); font-weight:600; }
+    .payment-info { background:rgba(37,99,235,0.05); border-radius:var(--border-radius); padding:24px; margin:32px 0; text-align:left; }
+    .info-row { display:flex; justify-content:space-between; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid var(--light-gray); }
+    .info-row:last-child { margin-bottom:0; padding-bottom:0; border-bottom:none; }
+    .info-label { color:var(--gray); }
+    .info-value { font-weight:600; color:var(--dark); }
+    .receipt-form { margin-top:32px; text-align:left; }
+    .upload-area { border:2px dashed var(--light-gray); border-radius:var(--border-radius); padding:32px; text-align:center; margin-bottom:24px; cursor:pointer; transition:var(--transition); }
+    .upload-area:hover { border-color:var(--primary); background:rgba(37,99,235,0.03); }
+    .upload-icon { font-size:2.5rem; color:var(--primary); margin-bottom:16px; }
+    .upload-text { color:var(--gray); margin-bottom:12px; }
+    .upload-hint { font-size:0.85rem; color:var(--gray); }
+    .video-player-container { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:1000; overflow-y:auto; padding:16px; display:flex; flex-direction:column; align-items:center; }
+    .comments-section { width:100%; max-width:700px; margin-top:16px; color:#fff; }
+    #commentsList { max-height:300px; overflow-y:auto; padding:12px; background:rgba(255,255,255,0.1); border-radius:8px; margin-bottom:12px; }
+    .comment { padding:10px; margin-bottom:10px; background:rgba(255,255,255,0.15); border-radius:6px; border-left:2px solid var(--secondary); }
+    .comment-author { font-weight:500; color:var(--primary-light); margin-bottom:4px; display:flex; align-items:center; gap:6px; }
+    .comment-author i { color:var(--secondary); }
+    .comment-text { color:rgba(255,255,255,0.9); line-height:1.5; font-size:0.95rem; }
+    #commentInput { width:100%; padding:10px 12px; border-radius:8px; border:none; background:rgba(255,255,255,0.15); color:#fff; margin-bottom:8px; font-size:0.95rem; resize:vertical; min-height:70px; }
+    #commentInput::placeholder { color:rgba(255,255,255,0.6); }
+    #submitComment { width:100%; background:var(--gradient-secondary); color:#fff; border:none; padding:10px; border-radius:8px; cursor:pointer; font-weight:500; font-size:1rem; display:flex; justify-content:center; align-items:center; gap:6px; transition:var(--transition); }
+    #submitComment:disabled { opacity:0.7; cursor:not-allowed; }
+    #submitComment:hover:not(:disabled) { transform:translateY(-2px); }
+    .close-video { align-self:flex-end; margin-bottom:12px; background:rgba(255,255,255,0.1) !important; border:1px solid rgba(255,255,255,0.2) !important; }
+    .no-comments { text-align:center; padding:16px; color:rgba(255,255,255,0.7); font-style:italic; }
+    #publicCommentsList { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:16px; margin-top:16px; }
+    #publicCommentsList .comment { background:#fff; border-radius:8px; padding:14px; box-shadow:0 2px 8px rgba(0,0,0,0.05); border-left:3px solid var(--secondary); }
+    #publicCommentsList .comment-author { font-weight:600; color:var(--primary-dark); margin-bottom:6px; display:flex; align-items:center; gap:5px; }
+    #publicCommentsList .comment-text { color:var(--dark); line-height:1.5; }
+    .comment-user.blurred { filter:blur(4px); display:inline-block; }
+    .comment-user.blurred:hover { filter:none; }
+    .delay-1 { animation-delay:.1s } .delay-2{ animation-delay:.2s } .delay-3{ animation-delay:.3s } .delay-4{ animation-delay:.4s }
+    .module-bg { background:var(--gradient-primary); display:flex; align-items:center; justify-content:center; color:#fff; height:200px; position:relative; }
+    .module-label { font-size:1.3rem; font-weight:600; text-align:center; padding:0 15px; }
+    .imlogo { width:50px; height:50px; object-fit:contain; border-radius:8px; }
+    @media (max-width:1200px){ .hero h1{font-size:2.5rem}.section-title h2{font-size:2.1rem} }
+    @media (max-width:992px){ .hero{padding:100px 0 60px}.hero h1{font-size:2.2rem}.section-title h2{font-size:1.8rem}.nav-links{gap:1rem} }
+    @media (max-width:768px){
+      .navbar{flex-direction:row; gap:16px; text-align:center}
+      .logo{margin:0 auto}
+      .nav-links{justify-content:center; flex-wrap:wrap; gap:6px; margin-top:8px}
+      .user-actions{margin:12px auto 0}
+      .hero{padding:80px 0 40px}
+      .hero h1{font-size:1.9rem; padding:0 12px}
+      .hero p{font-size:1.1rem; padding:0 12px; margin-bottom:28px}
+      .modules-grid{grid-template-columns:repeat(auto-fill, minmax(260px,1fr))}
+      .modal-content{padding:28px 20px; max-width:90%}
+      .card-content{padding:20px}
+      .payment-container{padding:24px}
+      .payment-steps{flex-direction:column; align-items:center; gap:32px}
+      .payment-steps::before{top:0; left:20px; width:2px; height:80%; transform:none}
+      .step{flex-direction:row; gap:16px; background:#fff; padding:8px; border-radius:8px}
+      .step-number{margin-bottom:0}
+      .comments-section{width:95%}
+    }
+    @media (max-width:576px){
+      .hero{padding:70px 0 30px}
+      .hero h1{font-size:1.7rem}
+      .section-title h2{font-size:1.6rem}
+      .section-title p{font-size:1rem}
+      .btn{padding:10px 18px; font-size:0.95rem}
+      .footer-content{grid-template-columns:1fr; gap:32px}
+      .footer-bottom{font-size:.85rem}
+      .card-image{height:180px}
+      .lesson-card .card-image{height:140px}
+      .payment-container{padding:20px 16px}
+    }
+    @media (max-width:480px){
+      .hero h1{font-size:1.5rem}
+      .hero p{font-size:1rem}
+      .nav-links a{padding:5px 10px; font-size:0.95rem}
+      .user-info{padding:6px 12px; font-size:.9rem}
+    }
+
+    /* Пошаговая навигация страниц */
+.page { display:none; }
+.page.active { display:block; }
+
+/* (необязательно) плавное появление страниц */
+.page.active { animation: fadeIn .25s ease; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- Главная -->
+    <div id="mainPage" class="page active">
+      <header>
+        <div class="container">
+          <nav class="navbar">
+            <a href="#" class="logo">
+              <img class="imlogo" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiByeD0iOCIgZmlsbD0iIzI1NjNFQiIvPgo8cGF0aCBkPSJNMzAgMTVIMjBWMzVIMzBWMTVaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMzUgMjBIMTVWMjVIMzVWMjBaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K" alt=""> TargetAI Academy
+            </a>
+            <ul class="nav-links">
+              <li><a href="#" class="slide-in">Басты бет</a></li>
+              <li><a href="#modules" class="slide-in delay-1">Модульдер</a></li>
+              <li><a href="#container" class="slide-in delay-2">Біз туралы</a></li>
+              <li><a href="#" class="slide-in delay-3">Байланыс</a></li>
+            </ul>
+            <div class="user-actions">
+              <div id="userInfo" class="user-info" style="display:none;">
+                <i class="fas fa-user"></i>
+                <span id="userName">Пайдаланушы</span>
+              </div>
+              <a href="#" class="btn btn-outline" id="loginButton">
+                <i class="fas fa-sign-in-alt"></i> Кіру
+              </a>
+            </div>
+          </nav>
+        </div>
+      </header>
+
+      <section class="hero">
+        <div class="hero-content">
+          <h1>ТАРГЕТТІК -> НӘТИЖЕ: AI КӨМЕГІМЕН САТУДЫ ҮЛГЕЙТУ</h1>
+          <p>TikTok және Facebook-та таргеттелген жарнаманы меңгеріңіз, сонымен қатар AI-менеджерлерді клиенттерді қысымға алу үшін жасаңыз</p>
+          <a href="#modules" class="btn btn-primary"><i class="fas fa-book-open"></i> Оқуды бастау</a>
+        </div>
+      </section>
+
+      <section id="modules" class="container">
+        <div class="section-title">
+          <h2>Оқу модульдері</h2>
+          <p>Таргеттік жарнама және AI-менеджерлер саласындағы біліміңізді кеңейтіңіз</p>
+        </div>
+        <div class="grid modules-grid" id="modulesContainer">
+          <div class="loading"><div class="spinner"></div><p>Модульдер жүктелуде...</p></div>
+        </div>
+      </section>
+
+      <!-- Публичные комментарии -->
+      <section id="publicComments" class="container">
+        <div class="section-title"><h2>Пікірлер</h2></div>
+        <div id="publicCommentsList" class="grid"></div>
+      </section>
+
+      <section class="container" id="container">
+        <div class="section-title">
+          <h2>Платформаның артықшылықтары</h2>
+          <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 30px;">
+            <div class="feature-card fade-in"><i class="fas fa-bullseye"></i><h3>Таргеттік жарнама</h3><p>TikTok және Facebook желілерінде тиімді жарнамалық науқандарды құруды үйреніңіз.</p></div>
+            <div class="feature-card fade-in delay-1"><i class="fas fa-robot"></i><h3>AI-менеджерлер</h3><p>AI-Man платформасында AI-менеджерлерді жасап, сату процесін автоматтандырыңыз.</p></div>
+            <div class="feature-card fade-in delay-2"><i class="fas fa-chart-line"></i><h3>Нақты нәтижелер</h3><p>Тәжірибелік тапсырмалар мен кейстер арқылы нақты дағдыларды меңгеріңіз.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <div class="container">
+          <div class="footer-content">
+            <div class="footer-column">
+              <h3>TargetAI Academy</h3>
+              <p>Таргеттік жарнама және AI-менеджерлер арқылы бизнес нәтижелерін жақсарту.</p>
+              <div class="social-links">
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-telegram"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+              </div>
+            </div>
+            <div class="footer-column">
+              <h3>Бөлімдер</h3>
+              <ul class="footer-links">
+                <li><a href="#"><i class="fas fa-chevron-right"></i> Басты бет</a></li>
+                <li><a href="#modules"><i class="fas fa-chevron-right"></i> Модульдер</a></li>
+                <li><a href="#"><i class="fas fa-chevron-right"></i> Сабақтар</a></li>
+                <li><a href="#"><i class="fas fa-chevron-right"></i> Кеңестер</a></li>
+              </ul>
+            </div>
+            <div class="footer-column">
+              <h3>Байланыс</h3>
+              <ul class="footer-links">
+                <li><a href="#"><i class="fas fa-envelope"></i> info@targetai.kz</a></li>
+                <li><a href="#" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+                <li><a href="#"><i class="fas fa-map-marker-alt"></i> Алматы, Технология көш., 10</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="footer-bottom">&copy; 2025 TargetAI Academy. Барлық құқықтар қорғалған.</div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Сабақтар -->
+    <div id="lessonsPage" class="page">
+      <header>
+        <div class="container">
+          <nav class="navbar">
+            <a href="#" id="backButton" class="logo"><i class="fas fa-arrow-left"></i> Артқа</a>
+            <ul class="nav-links"><li><a href="#" id="currentModuleName">Модуль</a></li></ul>
+            <div class="user-actions">
+              <div id="userInfoLessons" class="user-info" style="display:none;"><i class="fas fa-user"></i><span id="userNameLessons">Пайдаланушы</span></div>
+              <a href="#" class="btn btn-outline" id="loginButtonLessons"><i class="fas fa-sign-in-alt"></i> Кіру</a>
+            </div>
+          </nav>
+        </div>
+      </header>
+
+      <section class="container lessons-header">
+        <div class="section-title"><h2 id="moduleTitle">Модуль сабақтары</h2><p id="moduleDescription">Оқу үшін сабақты таңдаңыз</p></div>
+      </section>
+
+      <section class="container">
+        <div class="grid modules-grid" id="lessonsContainer">
+          <div class="loading"><div class="spinner"></div><p>Сабақтар жүктелуде...</p></div>
+        </div>
+      </section>
+
+      <footer>
+        <div class="container">
+          <div class="footer-content">
+            <div class="footer-column">
+              <h3>TargetAI Academy</h3>
+              <p>Таргеттік жарнама және AI-менеджерлер арқылы бизнес нәтижелерін жақсарту.</p>
+              <div class="social-links">
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-telegram"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+              </div>
+            </div>
+            <div class="footer-column">
+              <h3>Бөлімдер</h3>
+              <ul class="footer-links">
+                <li><a href="#"><i class="fas fa-chevron-right"></i> Басты бет</a></li>
+                <li><a href="#modules"><i class="fas fa-chevron-right"></i> Модульдер</a></li>
+                <li><a href="#"><i class="fas fa-chevron-right"></i> Сабақтар</a></li>
+                <li><a href="#"><i class="fas fa-chevron-right"></i> Кеңестер</a></li>
+              </ul>
+            </div>
+            <div class="footer-column">
+              <h3>Байланыс</h3>
+              <ul class="footer-links">
+                <li><a href="#"><i class="fas fa-envelope"></i> info@targetai.kz</a></li>
+                <li><a href="#" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+                <li><a href="#"><i class="fas fa-map-marker-alt"></i> Алматы, Технология көш., 10</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="footer-bottom">&copy; 2025 TargetAI Academy. Барлық құқықтар қорғалған.</div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Төлем -->
+    <div id="paymentPage" class="page">
+      <header>
+        <div class="container">
+          <nav class="navbar">
+            <a href="#" id="backFromPayment" class="logo"><i class="fas fa-arrow-left"></i> Артқа</a>
+            <ul class="nav-links"><li><a href="#" id="paymentModuleName">Курсты төлеу</a></li></ul>
+          </nav>
+        </div>
+      </header>
+
+      <section class="payment-page">
+        <div class="container">
+          <div class="payment-container">
+            <div class="payment-header">
+              <div class="payment-icon"><i class="fas fa-shopping-cart"></i></div>
+              <h2>Курсты төлеу</h2>
+              <p>Курс материалдарына қол жеткізу үшін төлем жасау қажет</p>
+            </div>
+            <div class="payment-steps">
+              <div class="step active"><div class="step-number">1</div><div class="step-text">Төлем</div></div>
+              <div class="step"><div class="step-number">2</div><div class="step-text">Чек жіберу</div></div>
+              <div class="step"><div class="step-number">3</div><div class="step-text">Қол жеткізу</div></div>
+            </div>
+            <div class="payment-info">
+              <div class="info-row"><span class="info-label">Курс:</span><span class="info-value" id="courseName">Таргеттік жарнама және AI</span></div>
+              <div class="info-row"><span class="info-label">Модуль:</span><span class="info-value" id="moduleNamePayment">Таргеттік жарнама негіздері</span></div>
+              <div class="info-row"><span class="info-label">Бағасы:</span><span class="info-value">25 000 ₸</span></div>
+            </div>
+            <a href="#" class="btn btn-primary" id="payButton"><i class="fas fa-wallet"></i> Kaspi Pay арқылы төлеу</a>
+            <div class="receipt-form">
+              <h3>Төлем чекін жіберу</h3>
+              <p>Төлем жасағаннан кейін чектің скриншотын немесе фотосуретін жүктеңіз</p>
+              <div class="upload-area" id="uploadArea">
+                <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                <div class="upload-text">Файлды осында сүйреп әкеліңіз немесе жүктеу үшін басыңіз</div>
+                <div class="upload-hint">JPG, PNG, PDF (макс. 5MB)</div>
+              </div>
+              <button class="btn btn-accent" id="sendReceipt"><i class="fas fa-paper-plane"></i> Чекті менеджерге жіберу</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <div class="container">
+          <div class="footer-content">
+            <div class="footer-column">
+              <h3>TargetAI Academy</h3>
+              <p>Таргеттік жарнама және AI-менеджерлер арқылы бизнес нәтижелерін жақсарту.</p>
+              <div class="social-links">
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-telegram"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+              </div>
+            </div>
+            <div class="footer-column">
+              <h3>Бөлімдер</h3>
+              <ul class="footer-links">
+                <li><a href="#"><i class="fas fa-chevron-right"></i> Басты бет</a></li>
+                <li><a href="#modules"><i class="fas fa-chevron-right"></i> Модульдер</a></li>
+                <li><a href="#"><i class="fas fa-chevron-right"></i> Сабақтар</a></li>
+                <li><a href="#"><i class="fas fa-chevron-right"></i> Кеңестер</a></li>
+              </ul>
+            </div>
+            <div class="footer-column">
+              <h3>Байланыс</h3>
+              <ul class="footer-links">
+                <li><a href="#"><i class="fas fa-envelope"></i> info@targetai.kz</a></li>
+                <li><a href="#" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+                <li><a href="#"><i class="fas fa-map-marker-alt"></i> Алматы, Технология көш., 10</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="footer-bottom">&copy; 2025 TargetAI Academy. Барлық құқықтар қорғалған.</div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Модал авторизации -->
+    <div class="modal" id="authModal">
+      <div class="modal-content">
+        <button class="modal-close" id="closeModal">&times;</button>
+        <form id="loginForm" class="auth-form active">
+          <h3 class="modal-title">Аккаунтқа кіру</h3>
+          <div class="form-group">
+            <label for="loginEmail">Нөмір</label>
+            <input type="number" id="loginEmail" class="form-control" placeholder="Нөміріңізді енгізіңіз" required>
+          </div>
+          <div class="form-group">
+            <label for="loginPassword">Құпиясөз</label>
+            <input type="password" id="loginPassword" class="form-control" placeholder="Құпиясөзіңізді енгізіңіз" required>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;"><i class="fas fa-sign-in-alt"></i> Кіру</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // URLs из первого кода (TargetAI)
+      const SESS_URL = 'https://script.google.com/macros/s/AKfycbxZKmh7dcm58TWEZ86TiqypYEUs0bnyqoP-fywTBq6-7yU0rhSDdeL9JnFQHO272YzS0Q/exec';
+      const CONFIG = {
+        spreadsheetId: '1d-BH0H4LhL90X0MjlIrRdA9pDfMlAnOpBdNBiMDW7hI',
+        sheets: { modules:'Модули', lessons:'Видеоуроки', users:'Юзеры', comments:'comment' }
+      };
+      const COMMENT_URL = 'https://script.google.com/macros/s/AKfycbxehHPN7qjz8fnQK-xejZzRW3gZuYw7sxhNG2RFc7gwmwn92LfcQSiE1FExDuMptX33tw/exec';
+
+      const state = {
+        currentModule: null,
+        currentUser: null,
+        users: [],
+        paymentModule: null,
+        lessonsAll: null,
+        lessonsFetchedAt: 0
+      };
+
+      let sessionTimer = null;
+      const ROUTE_KEY = 'eduplatform_route';
+
+      const DOM = {
+        mainPage: document.getElementById('mainPage'),
+        lessonsPage: document.getElementById('lessonsPage'),
+        paymentPage: document.getElementById('paymentPage'),
+        modulesContainer: document.getElementById('modulesContainer'),
+        lessonsContainer: document.getElementById('lessonsContainer'),
+        loginButton: document.getElementById('loginButton'),
+        loginButtonLessons: document.getElementById('loginButtonLessons'),
+        authModal: document.getElementById('authModal'),
+        closeModal: document.getElementById('closeModal'),
+        loginForm: document.getElementById('loginForm'),
+        userInfo: document.getElementById('userInfo'),
+        userName: document.getElementById('userName'),
+        userInfoLessons: document.getElementById('userInfoLessons'),
+        userNameLessons: document.getElementById('userNameLessons'),
+        moduleTitle: document.getElementById('moduleTitle'),
+        moduleDescription: document.getElementById('moduleDescription'),
+        currentModuleName: document.getElementById('currentModuleName'),
+        backButton: document.getElementById('backButton'),
+        backFromPayment: document.getElementById('backFromPayment'),
+        paymentModuleName: document.getElementById('paymentModuleName'),
+        courseName: document.getElementById('courseName'),
+        moduleNamePayment: document.getElementById('moduleNamePayment'),
+        payButton: document.getElementById('payButton'),
+        uploadArea: document.getElementById('uploadArea'),
+        sendReceipt: document.getElementById('sendReceipt')
+      };
+
+      // Helpers
+      function extractGoogleDriveId(url){ if(!url) return null; const ps=[/\/d\/([A-Za-z0-9_-]+)/,/\/file\/d\/([A-Za-z0-9_-]+)/,/id=([A-Za-z0-9_-]+)/,/([A-Za-z0-9_-]{25,})/]; for(const p of ps){ const m=url.match(p); if(m&&m[1]) return m[1]; } return null; }
+      function getPdfPreviewUrl(url){ const id=extractGoogleDriveId(url); return id?`https://drive.google.com/file/d/${id}/preview`:''; }
+
+      // Render
+      function renderModules(modules, lessonCounts){
+        DOM.modulesContainer.innerHTML='';
+        modules.forEach((mod,i)=>{
+          const count = lessonCounts[String(mod.id)] || 0;
+          const card = document.createElement('div');
+          card.className='card module-card fade-in';
+          card.style.animationDelay=`${i*0.1}s`;
+          card.innerHTML=`
+            <div class="card-image module-bg"><div class="module-label">${mod.id}</div></div>
+            <div class="card-content">
+              <h3>${mod.name}</h3>
+              <p>${mod.description}</p>
+              <p style="margin-top:8px; color:var(--primary); font-weight:600;">Модульдегі сабақ саны: ${count}</p>
+              <button class="btn btn-primary view-lessons" data-module-id="${mod.id}" data-module-name="${encodeURIComponent(mod.name)}">
+                <i class="fas fa-book-reader"></i> Сабақтарды қарау
+              </button>
+            </div>`;
+          DOM.modulesContainer.appendChild(card);
+        });
+        document.querySelectorAll('.view-lessons').forEach(btn=>{
+          btn.addEventListener('click', async ()=>{
+            const verifyPromise = state.currentUser ? verifySession() : Promise.resolve(true);
+
+            state.currentModule = { 
+              id: btn.dataset.moduleId, 
+              name: decodeURIComponent(btn.dataset.moduleName) 
+            };
+
+            showLessonsPage();
+
+            const ok = await verifyPromise;
+              if (ok === false) {
+                forceLogout('Сессия аяқталды (басқа құрылғыдан кіру).');
+              }
+          });
+
+          btn.addEventListener('mouseenter', ()=>{
+            if (!state.lessonsAll) {
+              fetchSheetData(CONFIG.sheets.lessons)
+                .then(ls => { state.lessonsAll = ls; state.lessonsFetchedAt = Date.now(); })
+                .catch(()=>{});
+            }
+          });
+        });
+      }
+
+      // Sheets
+      async function fetchSheetData(sheet){
+        const url=`https://docs.google.com/spreadsheets/d/${CONFIG.spreadsheetId}/gviz/tq?sheet=${encodeURIComponent(sheet)}&tqx=out:json&_=${Date.now()}`;
+        const res=await fetch(url); if(!res.ok) throw new Error(res.status);
+        const txt=await res.text(); const json=JSON.parse(txt.slice(txt.indexOf('{'), txt.lastIndexOf('}')+1));
+        return json.table.rows.map(r=>{
+          const obj={}; r.c.forEach((cell,i)=>{ const key=json.table.cols[i].label.trim(); obj[key]=cell&&cell.v!=null?String(cell.v).trim():'';}); return obj;
+        });
+      }
+
+      async function loadModulesWithCounts(){
+      DOM.modulesContainer.innerHTML =
+        '<div class="loading"><div class="spinner"></div><p>Модульдер жүктелуде...</p></div>';
+      try{
+        const [modules, lessons] = await Promise.all([
+          fetchSheetData(CONFIG.sheets.modules),
+          fetchSheetData(CONFIG.sheets.lessons)
+        ]);
+
+        state.lessonsAll = lessons;
+        state.lessonsFetchedAt = Date.now();
+
+        const counts = lessons.reduce((a,l)=>{
+          const m = String(l.module_id);
+          a[m] = (a[m] || 0) + 1;
+          return a;
+        },{});
+
+        renderModules(modules, counts);
+      }catch(err){
+        DOM.modulesContainer.innerHTML = `
+          <div class="error-message">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h3>Модульдерді жүктеу мүмкін емес</h3>
+            <p>Кейінірек қайталап көріңіз</p>
+          </div>`;
+        console.error(err);
+      }
+    }
+
+    async function loadLessons(moduleId){
+  DOM.lessonsContainer.innerHTML =
+    '<div class="loading"><div class="spinner"></div><p>Сабақтар жүктелуде...</p></div>';
+
+  if (Array.isArray(state.lessonsAll)) {
+    const subset = state.lessonsAll.filter(x => String(x.module_id) === String(moduleId));
+    if (subset.length) renderLessons(subset);
+  }
+
+  const needRefresh = !Array.isArray(state.lessonsAll) ||
+                      (Date.now() - state.lessonsFetchedAt > 2 * 60 * 1000);
+  if (needRefresh) {
+    try{
+      const fresh = await fetchSheetData(CONFIG.sheets.lessons);
+      state.lessonsAll = fresh;
+      state.lessonsFetchedAt = Date.now();
+      const subset = fresh.filter(x => String(x.module_id) === String(moduleId));
+      renderLessons(subset);
+    }catch(e){
+      if (!Array.isArray(state.lessonsAll)) {
+        DOM.lessonsContainer.innerHTML =
+          '<div class="error-message"><i class="fas fa-exclamation-triangle"></i><h3>Сабақтарды жүктеу мүмкін емес</h3></div>';
+      }
+    }
+  } else {
+    if (!DOM.lessonsContainer.querySelector('.card')) {
+      const subset = state.lessonsAll.filter(x => String(x.module_id) === String(moduleId));
+      renderLessons(subset);
+    }
+  }
+}
+
+      // Comments
+      async function loadPublicComments(){
+        const container=document.getElementById('publicCommentsList');
+        container.innerHTML='<div class="loading"><div class="spinner"></div><p>Пікірлер жүктелуде...</p></div>';
+        try{
+          const all=await fetchSheetData(CONFIG.sheets.comments);
+          container.innerHTML = all.length ? all.map(c=>`
+            <div class="comment">
+              <div class="comment-author"><i class="fas fa-user"></i><span class="comment-user blurred">${c.user}</span></div>
+              <div class="comment-text">${c.comment}</div>
+            </div>`).join('') : '<div class="no-comments">Әзірге пікір жоқ.</div>';
+        }catch(e){ console.error(e); container.innerHTML='<div class="no-comments">Пікірлерді жүктеу мүмкін емес.</div>'; }
+      }
+      async function loadComments(videoId, container){
+        container.innerHTML=`<div class="loading"><div class="spinner"></div><p>Пікірлер жүктелуде...</p></div>`;
+        try{
+          const all=await fetchSheetData(CONFIG.sheets.comments);
+          const comments=all.filter(c=>String(c.video_id)===String(videoId));
+          container.innerHTML = comments.length ? comments.map(c=>`
+            <div class="comment"><div class="comment-author"><i class="fas fa-user"></i> ${c.user}</div><div class="comment-text">${c.comment}</div></div>`).join('')
+            : `<div class="no-comments">Әзірше пікір жоқ. Бірінші болыңыз!</div>`;
+        }catch{ container.innerHTML=`<div class="no-comments">Пікірлерді жүктеу мүмкін емес</div>`; }
+      }
+      async function postComment(videoId, user, text){
+        if(!text.trim()) return false;
+        const url = COMMENT_URL + `?action=add&video_id=${encodeURIComponent(videoId)}&user=${encodeURIComponent(user)}&comment=${encodeURIComponent(text)}`;
+        try{ const r=await fetch(url); const j=await r.json(); return j.status==='success'; }catch{ return false; }
+      }
+
+      function setActivePage(pageEl) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        pageEl.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        // сохранить «где мы»
+        let route = { page: pageEl.id };
+        if (pageEl.id === 'lessonsPage' && state.currentModule) {
+            route = { page: 'lessonsPage', moduleId: state.currentModule.id, moduleName: state.currentModule.name };
+        }
+        if (pageEl.id === 'paymentPage' && state.paymentModule) {
+            route = { page: 'paymentPage', moduleId: state.paymentModule.id, moduleName: state.paymentModule.name };
+        }
+        localStorage.setItem(ROUTE_KEY, JSON.stringify(route));
+        }
+
+        function showMainPage() {
+  setActivePage(DOM.mainPage);
+  window.location.hash = '';
+}
+
+function showLessonsPage() {
+  if (!state.currentModule) return;
+  setActivePage(DOM.lessonsPage);
+
+  DOM.moduleTitle.textContent = `«${state.currentModule.name}» модулінің сабақтары`;
+  DOM.moduleDescription.textContent = 'Оқу үшін сабақты таңдаңыз';
+  DOM.currentModuleName.textContent = state.currentModule.name;
+
+  window.location.hash = `lessons?moduleId=${state.currentModule.id}&moduleName=${encodeURIComponent(state.currentModule.name)}`;
+
+  // доступ: если есть пользователь — грузим уроки, иначе просим войти/оплатить
+  state.currentUser ? loadLessons(state.currentModule.id) : showLoginRequired();
+}
+
+function showPaymentPage() {
+  if (!state.paymentModule) return;
+  setActivePage(DOM.paymentPage);
+
+  DOM.paymentModuleName.textContent = state.paymentModule.name;
+  DOM.moduleNamePayment.textContent = state.paymentModule.name;
+
+  window.location.hash = `payment?moduleId=${state.paymentModule.id}&moduleName=${encodeURIComponent(state.paymentModule.name)}`;
+}
+      function showLoginRequired(){
+        DOM.lessonsContainer.innerHTML = `
+          <div class="error-message" style="text-align:center;">
+            <i class="fas fa-lock" style="font-size:3rem;margin-bottom:10px;"></i>
+            <p>Қол жеткізу үшін QR-код арқылы немесе сілтеме бойынша курсты төлеңіз:</p>
+            <div style="display:flex; flex-direction: column; gap:10px;justify-content:center;align-items:center;margin:10px 0;">
+              <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjUwIiBoZWlnaHQ9IjI1MCIgdmlld0Cb3g9IjAgMCAyNTAgMjUwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMjUwIiBoZWlnaHQ9IjI1MCIgcng9IjE1IiBmaWxsPSIjRkZGRkZGIi8+CjxwYXRoIGQ9Ik03NSA3NUgxNzVWMTc1SDc1Vjc1WiIgZmlsbD0iIzI1NjNFQiIvPgo8cGF0aCBkPSJNMTAwIDEwMFYxNTBIMTUwVjEzNUgxMzVWMTAwSDEwMFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xNTAgMTM1VjE1MEgxNjVWMTM1SDE1MFoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=" alt="Төлем QR коды" style="width:250px;height:250px;border-radius:15px;box-shadow:0 4px 10px rgba(0,0,0,0.1);" />
+              <a href="https://pay.kaspi.kz/pay/nobdj9ge" class="btn btn-primary" target="_blank" style="white-space:nowrap; background:#fff; color:#000">
+                <i class="fas fa-link"></i> Онлайн төлеу
+              </a>
+            </div>
+            <p>Төлем жасағаннан кейін чекті WhatsApp арқылы менеджерге жіберіңіз:</p>
+            <a href="https://wa.me/77053776288" class="btn btn-secondary" target="_blank" style="display:inline-flex;align-items:center;gap:8px; background:#fff; color:#000">
+              <i class="fab fa-whatsapp" style="color:green"></i> Менеджерге жазу
+            </a>
+          </div>`;
+      }
+
+      // Video player
+      function renderLessons(lessons){
+        if(!lessons.length){
+          DOM.lessonsContainer.innerHTML=`<div class="error-message"><i class="fas fa-video"></i><h3>Сабақтар табылмады</h3><p>Әзірше осы модульге сабақ жоқ</p></div>`;
+          return;
+        }
+        DOM.lessonsContainer.innerHTML='';
+        lessons.forEach((l,i)=>{
+          const card=document.createElement('div');
+          card.className='card module-card lesson-card fade-in';
+          card.style.animationDelay=`${i*0.1}s`;
+          card.innerHTML=`
+            <div class="card-image lesson-bg"><div class="lesson-number">${i+1}</div></div>
+            <div class="card-content">
+              <h3>${l.name}</h3>
+              <p>${l.description}</p>
+              <div style="display:block; gap:12px; margin-top:5px;">
+                <button class="btn btn-primary play-video" data-lesson-id="${l.id}" data-drive-id="${extractGoogleDriveId(l.video_url)}">
+                  <i class="fas fa-play-circle"></i> Қарау
+                </button>
+                ${l.pdf_url ? `<a href="${getPdfPreviewUrl(l.pdf_url)}" class="btn btn-outline" target="_blank"><i class="fas fa-file-pdf"></i> Презентация</a>` : ''}
+              </div>
+            </div>`;
+          DOM.lessonsContainer.appendChild(card);
+        });
+        document.querySelectorAll('.play-video').forEach(b=>{ b.addEventListener('click',()=>playVideo(b)); });
+      }
+      function playVideo(button){
+        const lessonId=button.dataset.lessonId, driveId=button.dataset.driveId; if(!driveId) return;
+        const cont=document.createElement('div');
+        cont.className='video-player-container';
+        cont.innerHTML=`
+          <button class="btn btn-primary close-video"><i class="fas fa-times"></i> Жабу</button>
+          <div style="position:relative; width:100%; max-width:900px; padding-bottom:56.25%; height:0;">
+            <iframe src="https://drive.google.com/file/d/${driveId}/preview" style="position:absolute; top:0; left:0; width:100%; height:100%;" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+          </div>
+          <div class="comments-section">
+            <h3><i class="fas fa-comments"></i> Пікірлер</h3>
+            <div id="commentsList"></div>
+            ${ state.currentUser
+                ? `<textarea id="commentInput" placeholder="Пікіріңіз…" rows="3" maxlength="500"></textarea>
+                   <button id="submitComment" class="btn btn-secondary"><i class="fas fa-paper-plane"></i> Жіберу</button>`
+                : `<p class="no-comments">Пікір қалдыру үшін кіріңіз</p>`
+            }
+          </div>`;
+        document.body.appendChild(cont);
+        const commentsContainer=cont.querySelector('#commentsList');
+        loadComments(lessonId, commentsContainer);
+        cont.querySelector('.close-video').addEventListener('click',()=>cont.remove());
+        if(state.currentUser){
+          const submitBtn=cont.querySelector('#submitComment');
+          const textarea=cont.querySelector('#commentInput');
+          submitBtn.addEventListener('click', async ()=>{
+            const text=textarea.value.trim(); if(!text) return;
+            submitBtn.disabled=true; submitBtn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Жіберілуде…';
+            const ok=await postComment(lessonId, state.currentUser.name, text);
+            if(ok){ loadComments(lessonId, commentsContainer); textarea.value=''; showNotification('Пікір қосылды','success'); }
+            else { showNotification('Пікір қосылды','success'); }
+            submitBtn.disabled=false; submitBtn.innerHTML='<i class="fas fa-paper-plane"></i> Жіберу';
+          });
+          textarea.addEventListener('keydown', e=>{ if(e.ctrlKey && e.key==='Enter') submitBtn.click(); });
+        }
+      }
+
+      // Session UI
+      function updateUserUI(){
+        if(state.currentUser){
+          DOM.userName.textContent=state.currentUser.name;
+          DOM.userNameLessons.textContent=state.currentUser.name;
+          DOM.userInfo.style.display='flex'; DOM.userInfoLessons.style.display='flex';
+          DOM.loginButton.style.display='none'; DOM.loginButtonLessons.style.display='none';
+          if(!document.getElementById('logoutButton')){
+            const L=document.createElement('a'); L.id='logoutButton'; L.className='btn btn-outline'; L.innerHTML='<i class="fas fa-sign-out-alt"></i> Шығу'; L.addEventListener('click', logoutUser);
+            DOM.userInfo.parentNode.appendChild(L);
+            const L2=L.cloneNode(true); L2.addEventListener('click', logoutUser); DOM.userInfoLessons.parentNode.appendChild(L2);
+          }
+        } else {
+          DOM.userInfo.style.display='none'; DOM.userInfoLessons.style.display='none';
+          DOM.loginButton.style.display='inline-flex'; DOM.loginButtonLessons.style.display='inline-flex';
+          const old=document.getElementById('logoutButton'); if(old) old.remove();
+          if(state.currentModule && DOM.lessonsPage.classList.contains('active')) showLoginRequired();
+        }
+      }
+
+      // Session API
+      async function loginUser(login, pass){
+        try{
+          const url = `${SESS_URL}?action=login&login=${encodeURIComponent(login)}&password=${encodeURIComponent(pass)}`;
+          const res = await fetch(url);
+          const data = await res.json();
+          if(data.ok){
+            state.currentUser = { name:String(login), login:String(login), token:data.token };
+            localStorage.setItem('eduplatform_user', JSON.stringify(state.currentUser));
+            updateUserUI();
+            hideAuthModal();
+            showNotification('Сіз сәтті кірдіңіз!','success');
+            startHeartbeat();
+            if(state.currentModule && DOM.lessonsPage.classList.contains('active')) loadLessons(state.currentModule.id);
+          } else {
+            showNotification('Қате логин немесе құпиясөз','error');
+          }
+        }catch(e){ console.error(e); showNotification('Сервер қолжетімсіз','error'); }
+      }
+      async function verifySession(){
+  const u = state.currentUser;
+  if (!u) return false;
+  try{
+    const res = await fetch(
+      `${SESS_URL}?action=verify&login=${encodeURIComponent(u.login)}&token=${encodeURIComponent(u.token)}`,
+      { cache: 'no-store' }
+    );
+    const data = await res.json();
+    return !!data.ok;
+  }catch{
+    return null;
+  }
+}
+      function startHeartbeat(){
+        if (sessionTimer) clearInterval(sessionTimer);
+
+        (async () => {
+          const u = state.currentUser; if (!u) return;
+          try {
+            const r = await fetch(`${SESS_URL}?action=heartbeat&login=${encodeURIComponent(u.login)}&token=${encodeURIComponent(u.token)}`);
+            const d = await r.json();
+            if (!d.ok) { forceLogout('Сіз басқа құрылғыдан шықтыңыз. Сессия жабылды.'); }
+          } catch {}
+        })();
+
+        sessionTimer = setInterval(async ()=>{
+          const u = state.currentUser; if (!u) return;
+          try {
+            const r = await fetch(`${SESS_URL}?action=heartbeat&login=${encodeURIComponent(u.login)}&token=${encodeURIComponent(u.token)}`);
+            const d = await r.json();
+            if (!d.ok) { forceLogout('Сіз басқа құрылғыдан шықтыңыз. Сессия жабылды.'); }
+          } catch {}
+        }, 20000);
+      }
+      function forceLogout(msg){
+        localStorage.removeItem('eduplatform_user');
+        state.currentUser=null;
+        if(sessionTimer) clearInterval(sessionTimer); sessionTimer=null;
+        updateUserUI();
+        if(msg) showNotification(msg,'info');
+      }
+      async function logoutUser(){
+        const u=state.currentUser;
+        if(u){ try{ await fetch(`${SESS_URL}?action=logout&login=${encodeURIComponent(u.login)}&token=${encodeURIComponent(u.token)}`);}catch{} }
+        forceLogout('Сіз жүйеден шықтыңыз');
+      }
+
+      // Auth modal
+      function showAuthModal(){ DOM.authModal.classList.add('active'); document.body.style.overflow='hidden'; }
+      function hideAuthModal(){ DOM.authModal.classList.remove('active'); document.body.style.overflow=''; DOM.loginForm.reset(); }
+
+      // Notifications
+      function showNotification(msg,type='info'){
+        const n=document.createElement('div');
+        n.className=`notification notification-${type}`;
+        n.style.cssText=`position:fixed;top:30px;right:30px;padding:18px 25px;background:${type==='success'?'#10B981':type==='error'?'#EF4444':'#3B82F6'};color:#fff;border-radius:8px;box-shadow:0 10px 15px -3px rgba(0,0,0,0.1);z-index:3000;transform:translateX(150%);transition:transform .5s;display:flex;align-items:center;gap:12px;font-weight:600;`;
+        n.innerHTML=`<i class="fas fa-${type==='success'?'check-circle':type==='error'?'exclamation-circle':'info-circle'}"></i>${msg}`;
+        document.body.appendChild(n);
+        setTimeout(()=> n.style.transform='translateX(0)',10);
+        setTimeout(()=>{ n.style.transform='translateX(150%)'; setTimeout(()=>n.remove(),500); }, 4000);
+      }
+
+      // Routing
+      function handleRouting(){
+        const hash = window.location.hash;
+        if (hash.startsWith('#lessons')) {
+            const params = new URLSearchParams(hash.split('?')[1]);
+            const mId = params.get('moduleId'), mName = params.get('moduleName');
+            if (mId && mName) {
+            state.currentModule = { id: mId, name: decodeURIComponent(mName) };
+            showLessonsPage();
+            return true;
+            }
+        } else if (hash.startsWith('#payment')) {
+            const params = new URLSearchParams(hash.split('?')[1]);
+            const mId = params.get('moduleId'), mName = params.get('moduleName');
+            if (mId && mName) {
+            state.paymentModule = { id: mId, name: decodeURIComponent(mName) };
+            showPaymentPage();
+            return true;
+            }
+        }
+        return false;
+        }
+
+      function restoreRoute() {
+  // приоритет: hash -> saved route
+  const hash = window.location.hash;
+  if (hash && handleRouting()) return true;
+
+  const raw = localStorage.getItem(ROUTE_KEY);
+  if (!raw) return false;
+
+  try {
+    const route = JSON.parse(raw);
+    if (route.page === 'lessonsPage' && route.moduleId && route.moduleName) {
+      state.currentModule = { id: route.moduleId, name: route.moduleName };
+      showLessonsPage();                 // сам вызовет loadLessons / showLoginRequired
+      return true;
+    }
+    if (route.page === 'paymentPage' && route.moduleId && route.moduleName) {
+      state.paymentModule = { id: route.moduleId, name: route.moduleName };
+      showPaymentPage();
+      return true;
+    }
+  } catch {}
+  return false;
+}
+
+      // Events
+      function setupEventListeners(){
+        DOM.loginButton.addEventListener('click', e=>{ e.preventDefault(); showAuthModal(); });
+        DOM.loginButtonLessons.addEventListener('click', e=>{ e.preventDefault(); showAuthModal(); });
+        DOM.closeModal.addEventListener('click', hideAuthModal);
+        DOM.loginForm.addEventListener('submit', e=>{
+          e.preventDefault();
+          loginUser(document.getElementById('loginEmail').value, document.getElementById('loginPassword').value);
+        });
+        document.addEventListener('click', e=>{ if(e.target===DOM.authModal) hideAuthModal(); });
+        DOM.backButton.addEventListener('click', e=>{ e.preventDefault(); showMainPage(); });
+        DOM.backFromPayment.addEventListener('click', e=>{ e.preventDefault(); showMainPage(); });
+        DOM.payButton.addEventListener('click', e=>{ e.preventDefault(); alert('Kaspi Pay-ға бағыттау...'); });
+        DOM.uploadArea.addEventListener('click', ()=>{ alert('Файл жүктеу функциясы (заглушка)'); });
+        DOM.sendReceipt.addEventListener('click', e=>{ e.preventDefault(); showNotification('Чек сәтті менеджерге жіберілді!','success'); setTimeout(()=>showMainPage(),3000); });
+        window.addEventListener('hashchange', handleRouting);
+      }
+      
+      window.addEventListener('focus', async () => {
+        if (!state.currentUser) return;
+        const ok = await verifySession();
+        if (ok === false) {
+          forceLogout('Сессия аяқталды (басқа құрылғыдан кіру).');
+        }
+      });
+
+
+      // Init
+      async function init() {
+        setupEventListeners();
+        await checkAuth();              // 1) восстановили пользователя
+        const restored = restoreRoute(); // 2) вернули нужный экран
+        if (!restored) {
+            // если хэша и сохранённого маршрута нет — показываем главную и грузим модули
+            showMainPage();
+        }
+        // 3) Публичные данные можно грузить параллельно
+        loadPublicComments();
+        // 4) Карточки модулей (для главной)
+        loadModulesWithCounts();
+        }
+
+      async function checkAuth(){
+        const u = localStorage.getItem('eduplatform_user');
+        if (!u) return;
+
+        state.currentUser = JSON.parse(u);
+        updateUserUI();
+        startHeartbeat();
+
+        const ok = await verifySession();
+
+        if (ok === false) {
+          forceLogout('Сессия аяқталды (басқа құрылғыдан кіру).');
+        }
+      }
+
+      init();
+    });
+  </script>
+</body>
+</html>
